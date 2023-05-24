@@ -14,9 +14,9 @@ def getDroneObjectDetectionInstance():
     model.roi_heads.box_predictor = FastRCNNPredictor(in_features,num_classes)
     return model
 
-def load_model_state(model_path):
+def load_model_state(model_path,device):
     model = getDroneObjectDetectionInstance()
-    model.load_state_dict(torch.load(model_path))
+    model.load_state_dict(torch.load(model_path,map_location = device))
     return model
 
 def get_inference(img_path,threshold,model,device):
