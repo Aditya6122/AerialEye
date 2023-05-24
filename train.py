@@ -34,7 +34,4 @@ for epoch in range(num_epochs):
     lr_scheduler.step()
     evaluate(model1, data_loader_test, device=device)
 
-torch.save(model1.state_dict(), '/content/model.pt')
-
-
-
+torch.save(model1.state_dict(), '/content/model_file.pt')
