@@ -6,11 +6,17 @@ from PIL import Image
 import torch
 from torchvision.utils import draw_bounding_boxes
 
+
 def getDroneObjectDetectionInstance():
     model = fasterrcnn_resnet50_fpn(weights="DEFAULT")
     num_classes=5
     in_features = model.roi_heads.box_predictor.cls_score.in_features
     model.roi_heads.box_predictor = FastRCNNPredictor(in_features,num_classes)
+    return model
+
+def load_model_state(model_path):
+    model = getDroneObjectDetectionInstance()
+    model.load_state_dict(torch.load(model_path))
     return model
 
 def get_inference(img_path,threshold,model,device):

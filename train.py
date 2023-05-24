@@ -34,10 +34,7 @@ for epoch in range(num_epochs):
     lr_scheduler.step()
     evaluate(model1, data_loader_test, device=device)
 
-threshold = 0.8
 torch.save(model1.state_dict(), '/content/model.pt')
-img = model_utils.get_inference('/content/img.png', threshold, model1)
-img.show()
 
 
 
