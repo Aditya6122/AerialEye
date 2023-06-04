@@ -5,7 +5,7 @@ from torchvision.transforms import PILToTensor
 from torchvision.transforms import ToPILImage
 from torchvision.models.detection import fasterrcnn_mobilenet_v3_large_fpn
 from torchvision.utils import draw_bounding_boxes
-
+import time
 
 def getDroneObjectDetectionInstance():
     model = fasterrcnn_mobilenet_v3_large_fpn(weights='DEFAULT')
@@ -25,7 +25,9 @@ def get_inference(img_path,threshold,model,device):
 
     model.eval()
     with torch.no_grad():
+        start = time.time()
         prediction = model([(img/255).to(device)])
+        end = time.time()
         
     labels =   {
             1:'person',
@@ -41,5 +43,6 @@ def get_inference(img_path,threshold,model,device):
     scores = prediction[0]['scores'].tolist()
     idx = next(x for x, val in enumerate(scores) if val < threshold)
     output = draw_bounding_boxes(img.to(torch.uint8), prediction[0]['boxes'][:idx], predictions[:idx])
-    out = ToPILImage()(output) 
-    return out
+    out = ToPILImage()(output)
+    time_taken = end-start 
+    return time_taken,out
