@@ -1,14 +1,14 @@
-from torchvision.models.detection import fasterrcnn_resnet50_fpn
+import torch
+from PIL import Image
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torchvision.transforms import PILToTensor
 from torchvision.transforms import ToPILImage
-from PIL import Image
-import torch
+from torchvision.models.detection import fasterrcnn_mobilenet_v3_large_fpn
 from torchvision.utils import draw_bounding_boxes
 
 
 def getDroneObjectDetectionInstance():
-    model = fasterrcnn_resnet50_fpn(weights="DEFAULT")
+    model = fasterrcnn_mobilenet_v3_large_fpn(weights='DEFAULT')
     num_classes=5
     in_features = model.roi_heads.box_predictor.cls_score.in_features
     model.roi_heads.box_predictor = FastRCNNPredictor(in_features,num_classes)
