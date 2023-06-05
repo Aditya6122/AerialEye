@@ -22,11 +22,13 @@ def load_model_state(model_path,device):
 def get_inference(img_path,threshold,model,device):
     img = Image.open(img_path).convert("RGB")
     img = PILToTensor()(img)
-
+    
     model.eval()
+    model.to(device)
+    img1 = (img/255).to(device)
     with torch.no_grad():
         start = time.time()
-        prediction = model([(img/255).to(device)])
+        prediction = model([img1])
         end = time.time()
         
     labels =   {
