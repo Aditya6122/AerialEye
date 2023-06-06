@@ -14,20 +14,20 @@ dataset = CityDataset('/content/data/train', get_transform(train=True))
 dataset_test = CityDataset('/content/data/test', get_transform(train=False))
 
 data_loader = DataLoader(
-    dataset, batch_size=4, shuffle=True, num_workers=4,
+    dataset, batch_size=8, shuffle=True, num_workers=4,
     collate_fn= collate_fn)
 
 data_loader_test = DataLoader(
-    dataset_test, batch_size=2, shuffle=False, num_workers=4,
+    dataset_test, batch_size=3, shuffle=False, num_workers=4,
     collate_fn= collate_fn)
 
 model1.to(device)
 
 params = [p for p in model1.parameters() if p.requires_grad]
-optimizer = torch.optim.SGD(params, lr=0.005, momentum=0.9, weight_decay=0.0005)
-lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer,step_size=3, gamma=0.1)
+optimizer = torch.optim.SGD(params, lr=1e-1, momentum=0.09, weight_decay=0.000005)
+lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer,step_size=5, gamma=0.1)
 
-num_epochs = 15
+num_epochs = 10
 
 for epoch in range(num_epochs):
     train_one_epoch(model1, optimizer, data_loader, device, epoch, print_freq=10)
